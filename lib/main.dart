@@ -1,3 +1,4 @@
+import 'package:dp_5/screens/onboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,14 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Inter",
       ),
-      home: Scaffold(
-        body: Center(
-          child: Text("Hello Flutter", style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),),  
-        ),
-      ),
+      home: Onboard(),
     );
   }
 }
