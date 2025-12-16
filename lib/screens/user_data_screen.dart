@@ -1,5 +1,7 @@
 import 'package:dp_5/constance/colours.dart';
 import 'package:dp_5/constance/constance.dart';
+import 'package:dp_5/screens/main_screen.dart';
+import 'package:dp_5/services/user_service.dart';
 import 'package:dp_5/widgets/custm_button.dart';
 import 'package:flutter/material.dart';
 
@@ -79,9 +81,13 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
+
                           //check whether the user entered a valid email
                           if (value!.isEmpty) {
                             return "Please Enter Your E-mail";
+                          }
+                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)){
+                            return "Please Enter a valid E-mail";
                           }
                         },
                         decoration: InputDecoration(
@@ -102,6 +108,9 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           if (value!.isEmpty) {
                             return "Please Enter a valid Password";
                           }
+                          if (value.length < 6) {
+                             return "Password must be at least 6 characters";
+                          }
                         },
                         obscureText: true, //not visible letters
                         decoration: InputDecoration(
@@ -121,6 +130,9 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           //check whether the user entered a valid confirm password
                           if (value!.isEmpty) {
                             return "Please  Confirm Your Password";
+                          }
+                          if (value != _passwordController.text) {
+                           return "Passwords do not match";
                           }
                         },
                         obscureText: true, //not visible letters
@@ -162,7 +174,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
 
                       //submit button
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             //form is valid , process data
                             String userName = _userNameController.text;
@@ -171,6 +183,25 @@ class _UserDataScreenState extends State<UserDataScreen> {
                             String confirmPassword =
                                 _ConfirmPasswordController.text;
 
+                            //save the user name and email in the devise storage
+                            await UserService.storeUserDetails(
+                              userName: userName,
+                              email: email,
+                              password: password,
+                              confirmPassword: confirmPassword,
+                              context: context,
+                            );
+                            //navigate to the next screen
+                            if(context.mounted) {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const MainScreen();
+                                },
+                              ),
+                            );
+                            }
                           }
                         },
                         child: CustmButton(
