@@ -33,9 +33,16 @@ class UserService {
         SnackBar(content: Text("User Details Stored Successfully..!")),
       );
       return;
-      
     } catch (err) {
       err.toString();
     }
+  }
+
+  //method to check weather username is saved in the shared pref
+  static Future<bool> checkUsername() async {
+    //create an instance for shared prefe
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userName = prefs.getString("username");
+    return userName != null;
   }
 }
