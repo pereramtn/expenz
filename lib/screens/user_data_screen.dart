@@ -66,6 +66,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           if (value!.isEmpty) {
                             return "Please Enter Your Name";
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                           hintText: "Enter Your Name",
@@ -86,9 +87,10 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           if (value!.isEmpty) {
                             return "Please Enter Your E-mail";
                           }
-                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)){
+                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)){
                             return "Please Enter a valid E-mail";
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                           hintText: "Enter Your E-mail",
@@ -111,6 +113,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           if (value.length < 6) {
                              return "Password must be at least 6 characters";
                           }
+                          return null;
                         },
                         obscureText: true, //not visible letters
                         decoration: InputDecoration(
@@ -134,6 +137,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           if (value != _passwordController.text) {
                            return "Passwords do not match";
                           }
+                          return null;
                         },
                         obscureText: true, //not visible letters
                         decoration: InputDecoration(
